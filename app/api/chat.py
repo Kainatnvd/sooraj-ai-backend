@@ -1,33 +1,34 @@
+from typing import Optional
 from fastapi import APIRouter, Form
 from fastapi.responses import JSONResponse
-from app.ai import chatbot, language, tts
+from app.ai import language, chatbot
 
 router = APIRouter()
 
-# Simple hello endpoint
 @router.get("/hello")
 async def say_hello():
     return {"message": "Hello from Sooraj AI Backend!"}
 
-# Text chatbot endpoint
 @router.post("/text")
-async def chat_text(message: str = Form(...), lang: str = Form("ur")):
-    """
-    lang: "ur" for Urdu (default), "pa" for Punjabi, "en" for English
-    """
-    # Step 1: Detect language if not provided
-    user_lang = lang or language.detect_language(message)
+async def chat_text(message: Optional[str] = Form(None)):
+      # 🟢 Initial greeting (when chat opens)
+    if not message.strip():
+        return JSONResponse(content={
+            "language": "ur",
+            "reply": "آپ اپنا سوال اردو، انگریزی، یا پنجابی میں لکھ سکتے ہیں۔"
+        })
     
-    # Step 2: Get AI reply from chatbot.py
-    reply_text = chatbot.get_reply(message, language=user_lang)
-    
-    # Step 3: Convert to audio
-    audio_file = tts.text_to_speech(reply_text, lang=user_lang)
-    
+    # 1️⃣ Detect language
+    user_lang = language.detect_language(message)
+
+    # 2️⃣ Get chatbot reply (NO RAG)
+    reply_text = chatbot.get_reply(message, user_lang)
+
     return JSONResponse(content={
-        "reply": reply_text,
-        "audio_file": audio_file
+        "language": user_lang,
+        "reply": reply_text
     })
+
 
 # Voice chatbot endpoint (placeholder)
 @router.post("/voice")
