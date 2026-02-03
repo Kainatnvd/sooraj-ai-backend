@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import chat
@@ -6,7 +8,7 @@ from app.api import chat
 app = FastAPI(title="SOORAJ AI Backend")
 
 # Allow React frontend to call this backend
-origins = ["http://localhost:3000"]  # React dev server
+origins = ["http://localhost:3001"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -15,7 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Include chat routes
+# main.py
 app.include_router(chat.router, prefix="/api/chat")
 
 @app.get("/")
