@@ -8,7 +8,7 @@ from app.api import chat
 app = FastAPI(title="SOORAJ AI Backend")
 
 # Allow React frontend to call this backend
-origins = ["http://localhost:3001"]
+origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
