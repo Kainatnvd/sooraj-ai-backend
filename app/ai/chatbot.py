@@ -56,7 +56,7 @@ load_dotenv()
 
 try:
     import openai
-    openai.api_key = os.getenv("API_KEY")
+    openai.api_key = os.getenv("OPENAI_API_KEY")
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
