@@ -89,8 +89,8 @@ from typing import Optional
 from fastapi import APIRouter, Form, UploadFile, File
 from fastapi.responses import JSONResponse, FileResponse
 from app.ai import language, chatbot
-import whisper
-from gtts import gTTS
+# import whisper
+# from gtts import gTTS
 from dotenv import load_dotenv
 load_dotenv()
 router = APIRouter()
@@ -112,50 +112,50 @@ async def chat_text(message: Optional[str] = Form(None)):
         "reply": reply_text
     })
 
-# Load Whisper model once
-whisper_model = whisper.load_model("small")
+# # Load Whisper model once
+# whisper_model = whisper.load_model("small")
 
-# Voice endpoint
-@router.post("/voice")
-async def chat_voice(file: UploadFile = File(...)):
-    temp_audio_path = "temp_input.webm"
-    temp_reply_path = "temp_reply.mp3"
+# # Voice endpoint
+# @router.post("/voice")
+# async def chat_voice(file: UploadFile = File(...)):
+#     temp_audio_path = "temp_input.webm"
+#     temp_reply_path = "temp_reply.mp3"
 
-    # Save uploaded audio
-    audio_bytes = await file.read()
-    with open(temp_audio_path, "wb") as f:
-        f.write(audio_bytes)
+#     # Save uploaded audio
+#     audio_bytes = await file.read()
+#     with open(temp_audio_path, "wb") as f:
+#         f.write(audio_bytes)
 
-    # Transcribe using Whisper
-    try:
-        result = whisper_model.transcribe(temp_audio_path)
-        user_text = result.get("text", "").strip()
-        print("Whisper transcription:", user_text)
-    except Exception as e:
-        print("STT error:", e)
-        return JSONResponse({"error": "Transcription failed."}, status_code=500)
+#     # Transcribe using Whisper
+#     try:
+#         result = whisper_model.transcribe(temp_audio_path)
+#         user_text = result.get("text", "").strip()
+#         print("Whisper transcription:", user_text)
+#     except Exception as e:
+#         print("STT error:", e)
+#         return JSONResponse({"error": "Transcription failed."}, status_code=500)
 
-    if not user_text:
-        user_text = "🎤"
+#     if not user_text:
+#         user_text = "🎤"
 
-    # Detect language
-    user_lang = language.detect_language(user_text)
+#     # Detect language
+#     user_lang = language.detect_language(user_text)
 
-    # Get chatbot reply
-    reply_text = chatbot.get_reply(user_text, user_lang)
+#     # Get chatbot reply
+#     reply_text = chatbot.get_reply(user_text, user_lang)
 
-    # Convert reply to audio
-    try:
-        tts_lang = "ur" if user_lang == "ur" else "en"
-        tts = gTTS(text=reply_text, lang=tts_lang)
-        tts.save(temp_reply_path)
-    except Exception as e:
-        print("TTS error:", e)
-        return JSONResponse({"error": "TTS failed"}, status_code=500)
+#     # Convert reply to audio
+#     try:
+#         tts_lang = "ur" if user_lang == "ur" else "en"
+#         tts = gTTS(text=reply_text, lang=tts_lang)
+#         tts.save(temp_reply_path)
+#     except Exception as e:
+#         print("TTS error:", e)
+#         return JSONResponse({"error": "TTS failed"}, status_code=500)
 
-    return FileResponse(
-        temp_reply_path,
-        media_type="audio/mpeg",
-        headers={"X-Transcript": user_text}
-    )
+#     return FileResponse(
+#         temp_reply_path,
+#         media_type="audio/mpeg",
+#         headers={"X-Transcript": user_text}
+#     )
     
