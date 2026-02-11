@@ -2,3 +2,9 @@ fastapi
 python-multipart
 langdetect
 openai
+openai-whisper
+gTTS
+torch
+uvicorn
+ffmpeg-python
+python-dotenv
