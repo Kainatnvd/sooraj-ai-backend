@@ -1,12 +1,7 @@
-# from gtts import gTTS
-# import os
+from gtts import gTTS
 
-# def text_to_speech(text: str, lang: str = "en") -> str:
-#     audio_filename = f"audio_{hash(text)}.mp3"
-#     tts = gTTS(text=text, lang=lang)
-#     tts.save(f"app/vectorstore/{audio_filename}")
-#     return audio_filename
-# Temporary placeholder for TTS
-def text_to_speech(text, lang="en"):
-    # Just return a dummy file path
-    return "dummy_audio.mp3"
+def text_to_speech(text: str, lang: str = "en") -> str:
+    audio_path = "temp_reply.mp3"  # keep same path so frontend can play
+    tts = gTTS(text=text, lang=lang)
+    tts.save(audio_path)
+    return audio_path
