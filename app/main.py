@@ -8,7 +8,7 @@ import uvicorn
 
 from app.api import chat
 
-# Create FastAPI app
+# ---------- Create FastAPI app ----------
 app = FastAPI(title="SOORAJ AI Backend")
 
 # Allow React frontend to call this backend
@@ -25,12 +25,14 @@ app.add_middleware(
 # Include chat routes
 app.include_router(chat.router, prefix="/api/chat")
 
+# Health check / root endpoint
 @app.get("/")
 def root():
     return {"message": "SOORAJ AI Backend running!"}
 
-
-# 👇 IMPORTANT FOR CLOUD RUN
+# ---------- Run the app for Cloud Run ----------
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # Cloud Run provides PORT
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+    # Use the PORT environment variable provided by Cloud Run
+    port = int(os.environ.get("PORT", 8080))
+    # Listen on 0.0.0.0 so the container is accessible externally
+    uvicorn.run("main:app", host="0.0.0.0", port=port, log_level="info")
