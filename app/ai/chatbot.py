@@ -51,16 +51,20 @@
 #         return "معاف کریں، فی الحال میں جواب نہیں دے سکتا۔"
 # app/ai/chatbot.py
 # app/ai/chatbot.py
-import os
+# import os
+# from openai import OpenAI
+
+# if os.getenv("ENV") != "PRODUCTION":
+#     from dotenv import load_dotenv
+#     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
+
+
+# # Initialize new OpenAI client
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 from openai import OpenAI
+import os
 
-if os.getenv("ENV") != "PRODUCTION":
-    from dotenv import load_dotenv
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
-
-
-# Initialize new OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 def get_reply(message: str, language: str = "ur") -> str:
     """
