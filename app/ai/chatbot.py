@@ -52,10 +52,12 @@
 # app/ai/chatbot.py
 # app/ai/chatbot.py
 import os
-from dotenv import load_dotenv
 from openai import OpenAI
 
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
+if os.getenv("ENV") != "PRODUCTION":
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
+
 
 # Initialize new OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
