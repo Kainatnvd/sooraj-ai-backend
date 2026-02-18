@@ -16,7 +16,7 @@ origins = ["http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,8 +31,7 @@ def root():
     return {"message": "SOORAJ AI Backend running!"}
 
 # ---------- Run the app for Cloud Run ----------
+
 if __name__ == "__main__":
-    # Use the PORT environment variable provided by Cloud Run
     port = int(os.environ.get("PORT", 8080))
-    # Listen on 0.0.0.0 so the container is accessible externally
-    uvicorn.run("main:app", host="0.0.0.0", port=port, log_level="info")
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
