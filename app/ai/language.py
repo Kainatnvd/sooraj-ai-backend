@@ -24,7 +24,7 @@
 from langdetect import detect
 import re
 
-PUNJABI_HINTS = {"تے", "وچ", "ایہ", "اوہ", "نیں", "ساڈا", "تہاڈا", "کیوں", "ہن"}
+PUNJABI_HINTS = {"تے", "وچ", "ایہ","اے", "اوہ", "نیں", "کراں","ساڈا", "تہاڈا", "کیوں", "ہن"}
 
 def detect_language(text: str) -> str:
     text = text.strip()
