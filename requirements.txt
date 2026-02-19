@@ -4,7 +4,7 @@ langdetect
 openai
 openai-whisper
 gTTS
-torch
 uvicorn
 ffmpeg-python
 python-dotenv
+torch --index-url https://download.pytorch.org/whl/cpu

@@ -1,18 +1,21 @@
-# Use official Python 3.11 slim image
 FROM python:3.11-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install system dependencies first
+RUN apt-get update && \
+    apt-get install -y ffmpeg build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy the rest of the app code
+# Copy requirements and install Python deps
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
 COPY . .
 
-# Expose port 8080 (optional, for documentation)
+ENV PORT=8080
 EXPOSE 8080
 
-# Run the app using Python (main.py already handles PORT)
-CMD ["python", "main.py"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
