@@ -120,7 +120,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-load_dotenv()
+load_dotenv()   
 
 def get_client():
     api_key = os.getenv("OPENAI_API_KEY")
