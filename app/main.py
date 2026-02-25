@@ -33,3 +33,9 @@ app.include_router(chat.router, prefix="/api/chat")
 @app.get("/")
 def root():
     return {"message": "SOORAJ AI Backend running!"}
+
+
+# 👇 IMPORTANT FOR CLOUD RUN
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))  # Cloud Run provides PORT
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
