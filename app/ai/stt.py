@@ -44,7 +44,7 @@ model = None
 def get_model():
     global model
     if model is None:
-        model = whisper.load_model("small")
+        model = whisper.load_model("base")
     return model
 
 async def audio_to_text(file: UploadFile) -> str:
@@ -60,7 +60,7 @@ async def audio_to_text(file: UploadFile) -> str:
 
     try:
         m = get_model()
-        result = m.transcribe(tmp_path)
+        result = m.transcribe(tmp_path, fp16=False)
         return result.get("text", "").strip()
 
     finally:

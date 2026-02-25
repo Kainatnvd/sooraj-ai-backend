@@ -171,3 +171,4 @@ def get_reply(message: str, language: str = "ur") -> str:
             "pa": "معاف کریں، فی الحال میں جواب نہیں دے سکتا۔",
             "en": "Sorry, I cannot respond right now."
         }.get(language, "Sorry, I cannot respond right now.")
+   
