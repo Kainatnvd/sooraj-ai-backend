@@ -12,7 +12,11 @@ from app.api import chat
 app = FastAPI(title="SOORAJ AI Backend")
 
 # Allow React frontend to call this backend
-origins = ["http://localhost:3000"]
+origins = [
+    "https://soorajcrop.vercel.app",
+    "https://soorajcropsciences.com",
+    "https://www.soorajcropsciences.com",
+]
 
 app.add_middleware(
     CORSMiddleware,
