@@ -83,7 +83,16 @@ async def chat_text(message: Optional[str] = Form(None)):
 
     # Detect language
     user_lang = language.detect_language(message)
+# Get chatbot reply safely
+    reply = chatbot.get_reply(message, user_lang)
+    if not reply:
+        reply = "معاف کریں، میں ابھی جواب دینے سے قاصر ہوں۔"  # fallback if get_reply fails
 
+    # Return JSON
+    return JSONResponse(content={
+        "language": user_lang,
+        "reply": reply
+    })
 # @router.post("/voice")
 # async def chat_voice(file: UploadFile = File(...)):
 #     try:
