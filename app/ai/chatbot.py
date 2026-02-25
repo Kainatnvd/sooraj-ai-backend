@@ -118,8 +118,7 @@
 #         }.get(language, "Sorry, I cannot respond right now.")
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
-import os
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 load_dotenv()
 
