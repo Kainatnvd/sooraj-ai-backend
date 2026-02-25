@@ -54,12 +54,13 @@ import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-try:
-    import openai
-    openai.api_key = os.getenv("API_KEY")
-    OPENAI_AVAILABLE = True
-except ImportError:
-    OPENAI_AVAILABLE = False
+load_dotenv()   
+
+def get_client():
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY not found in environment")
+    return OpenAI(api_key=api_key)
 
 def get_reply(message: str, language: str = "ur") -> str:
     """
